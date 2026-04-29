@@ -2,32 +2,32 @@
 
 import { useState, useEffect } from "react";
 
-// ©w¸q¼Ò¦¡³]©w
+// å®šç¾©æ¨¡å¼è¨­å®š
 const MODES = [
-  { id: "eco", label: "¸`¯à", power: 1, target: 55, color: "bg-green-500" },
-  { id: "high", label: "±j¤O", power: 3, target: 40, color: "bg-blue-500" },
-  { id: "dry", label: "°®¦ç", power: 5, target: 30, color: "bg-purple-500" },
+  { id: "eco", label: "ç¯€èƒ½", power: 1, target: 55, color: "bg-green-500" },
+  { id: "high", label: "å¼·åŠ›", power: 3, target: 40, color: "bg-blue-500" },
+  { id: "dry", label: "ä¹¾è¡£", power: 5, target: 30, color: "bg-purple-500" },
 ];
 
 export default function Dehumidifier() {
-  // --- ª¬ºAºŞ²z ---
-  const [humidity, setHumidity] = useState(78); // ·í«eÀã«×
-  const [activeModeId, setActiveModeId] = useState<string | null>(null); // ¹B§@¼Ò¦¡
-  const [waterLevel, setWaterLevel] = useState(20); // ¤ô½c¦Ê¤À¤ñ
-  const [isPowerOn, setIsPowerOn] = useState(false); // ¹q·½ª¬ºA
+  // --- ç‹€æ…‹ç®¡ç† ---
+  const [humidity, setHumidity] = useState(78); // ç•¶å‰æ¿•åº¦
+  const [activeModeId, setActiveModeId] = useState<string | null>(null); // é‹ä½œæ¨¡å¼
+  const [waterLevel, setWaterLevel] = useState(20); // æ°´ç®±ç™¾åˆ†æ¯”
+  const [isPowerOn, setIsPowerOn] = useState(false); // é›»æºç‹€æ…‹
 
-  // --- ®Ö¤ßÅŞ¿è¡G¼ÒÀÀÀô¹ÒÅÜ¤Æ ---
+  // --- æ ¸å¿ƒé‚è¼¯ï¼šæ¨¡æ“¬ç’°å¢ƒè®ŠåŒ– ---
   useEffect(() => {
     const interval = setInterval(() => {
       const currentMode = MODES.find((m) => m.id === activeModeId);
 
       if (isPowerOn && currentMode && waterLevel < 100) {
-        // 1. ¦pªG¶}¾÷¥B¤ô½c¥¼º¡¡GÀã«×¤U­°
+        // 1. å¦‚æœé–‹æ©Ÿä¸”æ°´ç®±æœªæ»¿ï¼šæ¿•åº¦ä¸‹é™
         setHumidity((prev) => (prev > currentMode.target ? prev - 1 : prev));
-        // 2. ¤ô½c¤ô¦ì¤W¤É
+        // 2. æ°´ç®±æ°´ä½ä¸Šå‡
         setWaterLevel((prev) => Math.min(prev + 0.5, 100));
       } else {
-        // 3. «İ¾÷¤¤¡GÀã«×ÀHªÅ®ğ½wºC¦^¤É
+        // 3. å¾…æ©Ÿä¸­ï¼šæ¿•åº¦éš¨ç©ºæ°£ç·©æ…¢å›å‡
         setHumidity((prev) => (prev < 80 ? prev + 0.1 : prev));
       }
     }, 1000);
@@ -35,7 +35,7 @@ export default function Dehumidifier() {
     return () => clearInterval(interval);
   }, [isPowerOn, activeModeId, waterLevel]);
 
-  // --- ³B²z¨ç¦¡ ---
+  // --- è™•ç†å‡½å¼ ---
   const togglePower = () => {
     setIsPowerOn(!isPowerOn);
     if (!isPowerOn && !activeModeId) setActiveModeId("eco");
@@ -46,21 +46,21 @@ export default function Dehumidifier() {
   return (
     <main className="flex h-screen w-full flex-col items-center justify-center bg-zinc-900 p-4 text-white font-sans">
       
-      {/* ¾÷¾¹¥DÅé */}
+      {/* æ©Ÿå™¨ä¸»é«” */}
       <div className="relative w-full max-w-sm rounded-[3rem] bg-zinc-100 p-8 text-zinc-800 shadow-2xl shadow-blue-500/20">
         
-        {/* ¤W¤è¿Ã¹õÅã¥Ü°Ï */}
+        {/* ä¸Šæ–¹è¢å¹•é¡¯ç¤ºå€ */}
         <div className="mb-8 rounded-2xl bg-zinc-800 p-6 text-center text-white shadow-inner">
           <div className="text-xs uppercase tracking-widest opacity-50">Current Humidity</div>
           <div className="text-6xl font-black italic tracking-tighter">
             {Math.round(humidity)}<span className="text-2xl font-normal">%</span>
           </div>
           <div className="mt-2 text-xs font-medium text-blue-400">
-            {isPowerOn && waterLevel < 100 ? "¡´ SYSTEM RUNNING" : "¡³ STANDBY"}
+            {isPowerOn && waterLevel < 100 ? "â— SYSTEM RUNNING" : "â—‹ STANDBY"}
           </div>
         </div>
 
-        {/* µøÄ±­·®°°Êµe */}
+        {/* è¦–è¦ºé¢¨æ‰‡å‹•ç•« */}
         <div className="flex justify-center py-4">
           <div className={`h-24 w-24 rounded-full border-4 border-zinc-300 flex items-center justify-center ${isPowerOn && waterLevel < 100 ? 'animate-spin' : ''}`} 
                style={{ animationDuration: activeModeId === 'high' ? '0.5s' : '1.5s' }}>
@@ -69,7 +69,7 @@ export default function Dehumidifier() {
           </div>
         </div>
 
-        {/* ±±¨î«ö¶s°Ï */}
+        {/* æ§åˆ¶æŒ‰éˆ•å€ */}
         <div className="mt-8 grid grid-cols-3 gap-3">
           {MODES.map((mode) => (
             <button
@@ -87,7 +87,7 @@ export default function Dehumidifier() {
           ))}
         </div>
 
-        {/* ¹q·½Áä»P±Æ¤ôÁä */}
+        {/* é›»æºéµèˆ‡æ’æ°´éµ */}
         <div className="mt-6 flex gap-4">
           <button
             onClick={togglePower}
@@ -102,11 +102,11 @@ export default function Dehumidifier() {
             onClick={emptyWater}
             className="rounded-2xl bg-blue-100 px-6 font-bold text-blue-600 hover:bg-blue-200"
           >
-            ±Æ¤ô
+            æ’æ°´
           </button>
         </div>
 
-        {/* ¤ô½c¶i«×±ø */}
+        {/* æ°´ç®±é€²åº¦æ¢ */}
         <div className="mt-8">
           <div className="mb-2 flex justify-between text-xs font-bold uppercase opacity-60">
             <span>Water Tank</span>
@@ -120,18 +120,18 @@ export default function Dehumidifier() {
           </div>
         </div>
 
-        {/* ¤ôº¡Äµ§i¼ĞÅÒ */}
+        {/* æ°´æ»¿è­¦å‘Šæ¨™ç±¤ */}
         {waterLevel >= 100 && (
           <div className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-red-600 px-6 py-2 text-sm font-bold text-white shadow-xl animate-bounce">
-            ?? ¤ô½c¤wº¡
+            âš ï¸ æ°´ç®±å·²æ»¿
           </div>
         )}
       </div>
 
-      {/* ©³³¡»¡©ú */}
+      {/* åº•éƒ¨èªªæ˜ */}
       <div className="mt-8 text-center text-zinc-500">
         <p className="text-sm">Virtual Dehumidifier System v1.0</p>
-        <p className="text-xs opacity-50">¼ÒÀÀ¯u¹êÀã«×»P±Æ¤ô¾÷¨î</p>
+        <p className="text-xs opacity-50">æ¨¡æ“¬çœŸå¯¦æ¿•åº¦èˆ‡æ’æ°´æ©Ÿåˆ¶</p>
       </div>
     </main>
   );
